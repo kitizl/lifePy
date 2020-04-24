@@ -2,6 +2,25 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+
+"""
+Usage:
+    python main.py [-s N] [-t T] [-i INIT]
+        -s : size of the (square) board (integer only)
+        -t : time period of simulation
+        -i : initial state, the available options are:
+                - block
+                - glider
+                - blinker
+    Example:
+    python main.py -s 10 -t 10 -i GLIDER
+"""
+
+"""
+TODO:
+    * Change from plotting subplots to making animations (and saving them, if the option is chosen)
+"""
 
 def setConditions(grid,opt="block"):
     dummy = grid.copy()
@@ -21,6 +40,9 @@ def setConditions(grid,opt="block"):
         dummy[3,3] = 1
         dummy[2,3] = 1
         dummy[1,3] = 1
+    else:
+        print("That has not been implemented yet. Reverting to BLOCK")
+        dummy = setConditions(grid)
 
     grid = dummy.copy()
     return grid
@@ -43,11 +65,36 @@ def countNeighbors(array, x, y):
     #print(f"({x},{y}) -> {s}")
     return s
 
-grid = np.zeros((10,10))
+args = sys.argv[1:]
+argDict = dict()
+i = 0
 
-grid = setConditions(grid,opt="glider")
+while i < len(args):
+    argDict[args[i]] = args[i+1]
+    if i+2 >= len(args):
+        break
+    else:
+        i+=2
 
-T = 15
+size = int(argDict["-s"])
+time = int(argDict["-t"])
+init = argDict["-i"].lower()
+
+if size < 5:
+    size = 5
+if time < 2:
+    time = 2
+
+
+
+# setting up a grid
+grid = np.zeros((size,size))
+
+# setting initial conditions
+grid = setConditions(grid,opt=init)
+
+# Setting time period of simulation
+T = time
 
 fig, ax = plt.subplots(T,1)
 
