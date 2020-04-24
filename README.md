@@ -5,9 +5,19 @@ An implementation of Conway's Game of Life in Python (with matplotlib)
 
 To run this code, you will need `matplotlib` and `numpy`.
 
-The initial state is currently set to **GLIDER**. You can change the modes by changing the name of the parameter in `setConditions()`.
+To run the code, do the following:
 
-Similarly, you can also change the size of the space, if you like.
+```
+python main.py [-s N] [-t T] [-i INIT]
+        -s : size of the (square) board (integer only)
+	      -t : time period of simulation
+	      -i : initial state, the available options are:
+	           - block
+	           - glider
+	           - blinker
+	      Example:
+					    python main.py -s 10 -t 10 -i GLIDER
+```
 
 The boundaries are not periodic, and therefore the _objects_ would die upon touching the border.
 
